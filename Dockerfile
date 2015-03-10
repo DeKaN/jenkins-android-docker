@@ -53,6 +53,7 @@ RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter t
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter platform-tools --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter platform --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter build-tools-21.0.1 --no-ui -a
+RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter extra --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-18 --no-ui -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-19 --no-ui -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-21 --no-ui -a
