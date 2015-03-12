@@ -27,11 +27,11 @@ EXPOSE 50000
 RUN cd /usr/local/ && wget -nv http://ftp.tsukuba.wide.ad.jp/software/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz && tar xf apache-maven-3.1.1-bin.tar.gz
 
 # Install Gradle
-RUN cd /usr/local/ && wget -nv http://services.gradle.org/distributions/gradle-1.9-all.zip && unzip -oq gradle-1.9-all.zip
+RUN cd /usr/local/ && wget -nv http://services.gradle.org/distributions/gradle-2.3-all.zip && unzip -oq gradle-2.3-all.zip
 
 # Environment variables
 ENV MAVEN_HOME /usr/local/apache-maven-3.1.1
-ENV GRADLE_HOME /usr/local/gradle-1.9
+ENV GRADLE_HOME /usr/local/gradle-2.3
 ENV PATH $PATH:$ANDROID_HOME/tools
 ENV PATH $PATH:$ANDROID_HOME/platform-tools
 ENV PATH $PATH:$MAVEN_HOME/bin
@@ -40,19 +40,19 @@ ENV PATH $PATH:$GRADLE_HOME/bin
 # Clean up
 
 RUN rm -rf /usr/local/apache-maven-3.1.1-bin.tar.gz
-RUN rm -rf /usr/local/gradle-1.9-all.zip
+RUN rm -rf /usr/local/gradle-2.3-all.zip
 
 USER jenkins
 
 # Install Android SDK
-RUN cd /home/jenkins && wget -nv http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz && tar xfo android-sdk_r23.0.2-linux.tgz --no-same-permissions && chmod -R a+rX android-sdk-linux
-RUN rm -rf /home/jenkins/android-sdk_r23.0.2-linux.tgz
+RUN cd /home/jenkins && wget -nv http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz && tar xfo android-sdk_r24.0.2-linux.tgz --no-same-permissions && chmod -R a+rX android-sdk-linux
+RUN rm -rf /home/jenkins/android-sdk_r24.0.2-linux.tgz
 
 # Install Android tools
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter tools --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter platform-tools --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter platform --no-ui --force -a
-RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter build-tools-21.0.1 --no-ui -a
+RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter build-tools-21.1.2 --no-ui -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter extra --no-ui --force -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-18 --no-ui -a
 RUN echo y | /home/jenkins/android-sdk-linux/tools/android update sdk --filter sys-img-x86-android-19 --no-ui -a
@@ -71,7 +71,17 @@ RUN cd $JENKINS_HOME && mkdir plugins && cd plugins && \
   wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/git-client.hpi &&\
   wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/scm-api.hpi &&\
   wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/credentials.hpi &&\
-  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/ssh-credentials.hpi
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/ssh-credentials.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/android-lint.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/gradle.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/postbuild-task.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/active-directory.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/github-oauth.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/bitbucket-oauth.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/google-login.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/gravatar.hpi &&\
+  wget -nv https://updates.jenkins-ci.org/$JENKINS_VERSION/latest/bitbucket-approve.hpi
+
 
 # Copy default configuration for Maven  
 COPY hudson.tasks.Maven.xml $JENKINS_HOME/hudson.tasks.Maven.xml
